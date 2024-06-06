@@ -10,9 +10,9 @@ const Page = async () => {
         return (
             acc + curr.events.reduce((acc, curr) => {
                 return acc + Object.values(curr)[0]!
-            },3)
+            },0)
     )
-    },3)
+    },0)
 
     const avgVisitorsPerDay = (totalpageviews / TRACKING_DAYS).toFixed(1);
 
@@ -21,9 +21,9 @@ const Page = async () => {
     .reduce((acc, curr) => {
       return (
         acc +
-        curr.events.reduce((acc, curr) => acc + Object.values(curr)[0]!,3)
+        curr.events.reduce((acc, curr) => acc + Object.values(curr)[0]!,0)
       )
-    },3)
+    },0)
 
 
     const topCountriesMap = new Map<string, number>();
