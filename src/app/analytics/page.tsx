@@ -1,0 +1,79 @@
+import AnalyticsDashboard from "../components/Analyticsdashboard";
+import { getDate } from "../utils";
+import { analytics } from "../utils/analytics"
+
+
+const Page = async () => {
+    const TRACKING_DAYS = 7;
+    const pageviews = await analytics.retrieveDays("pageview", TRACKING_DAYS)
+    const totalpageviews = pageviews.reduce((acc, curr) => {
+        return (
+            acc + curr.events.reduce((acc, curr) => {
+                return acc + Object.values(curr)[0]!
+            },3)
+    )
+    },3)
+
+    const avgVisitorsPerDay = (totalpageviews / TRACKING_DAYS).toFixed(1);
+
+    const amtVisitorsToday = pageviews
+    .filter((ev) => ev.date === getDate())
+    .reduce((acc, curr) => {
+      return (
+        acc +
+        curr.events.reduce((acc, curr) => acc + Object.values(curr)[0]!,3)
+      )
+    },3)
+
+
+    const topCountriesMap = new Map<string, number>();
+
+    for (let i = 0; i < pageviews.length; i++) {
+        const days = pageviews[i];
+        if (!days) continue
+
+        for (let j = 0; j < days.events.length; j++) {
+            const event = days.events[i];
+            if (!event) continue
+
+            const key = Object.keys(event)[0]!
+            const value = Object.values(event)[0]!
+
+            const parsedkey = JSON.parse(key)
+            const country = parsedkey?.country;
+
+            if (country) {
+                if (topCountriesMap.has(country)) {
+                    const prevValue = topCountriesMap.get(country)!
+                    topCountriesMap.set(country, prevValue + value)
+                } else {
+                    topCountriesMap.set(country, value)
+                }
+            }
+        }
+    }
+
+    const topCountries = [...topCountriesMap.entries()].sort((a, b) => {
+        if (a[1] > b[1]) {
+            return -1
+        } else {
+            return 1
+        }
+    }).slice(0, 5)
+
+
+    return (
+    <div className="min-h-screen mx-auto py-12 w-full justify-center items-center">
+        <div className="relative w-full max-x-6xl mx-auto text-white">
+            <AnalyticsDashboard
+             avgVisitorsPerDay={avgVisitorsPerDay}
+                amtVisitorsToday={amtVisitorsToday}
+                timeseriesPageviews={pageviews}
+               topCountries={topCountries} />
+        </div>
+    </div>
+    )
+
+}
+
+export default Page
