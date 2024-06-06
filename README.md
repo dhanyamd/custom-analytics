@@ -3,4 +3,5 @@ This is a custom analytics dashboard which provides and updates real-time data-t
 . made using redis, typescript and upstash
 
 
-https://github.com/dhanyamd/custom-analytics/issues/1#issue-2339022679
+(https://github.com/dhanyamd/custom-analytics/assets/163339354/ef29c7d6-7a80-496b-9021-879b5ad4ae88)
+
