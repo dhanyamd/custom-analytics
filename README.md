@@ -1,4 +1,4 @@
-This is a custom analytics dashboard which provides and updates real-time data-tracking and analytics which may be connected either to an existing application to track relevant data or the traffic on a particular site
+This is a custom analytics dashboard which provides and updates real-time data-tracking and analytics which may be connected either to an existing application to track relevant data or the traffic on a particular page
 
 . made using redis, typescript and upstash
 
